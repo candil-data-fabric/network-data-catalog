@@ -1,0 +1,39 @@
+@startuml catalog-connector-source
+hide footbox
+
+' You can style participants globally if you want
+skinparam participant {
+  BackgroundColor #DAE8FC
+  BorderColor #000000
+  FontColor #1e293b
+  FontSize 18
+  FontStyle light
+  RoundCorner 10
+}
+
+skinparam sequenceActorFontSize 18
+
+skinparam ParticipantBorderThickness 2
+skinparam ParticipantPadding 10
+
+skinparam BoxFontSize 30
+skinparam BoxPadding 25
+
+skinparam backgroundColor #FFFFFF
+
+' If you want to use a custom actor sprite, you must define it as a sprite (see previous answer).
+box "Network Data Catalog" #FCFCFC
+  participant "Catalog\nConnector" as CatalogConnector
+  participant "Knowledge Graph\nDatabase" as KGDB
+end box
+
+participant "YANG\nCatalog" as YANGCatalog
+
+loop
+CatalogConnector -> YANGCatalog : (1) GET Module\nmetadata
+YANGCatalog --> CatalogConnector
+
+CatalogConnector -> KGDB : (2) SPARQL UPDATE KG\nLibrary Module
+KGDB --> CatalogConnector
+end
+@enduml

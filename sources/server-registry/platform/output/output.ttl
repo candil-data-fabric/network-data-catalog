@@ -1,0 +1,62 @@
+@prefix schema: <http://schema.org/> .
+@prefix mod: <https://w3id.org/mod#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix core: <https://ontology.unifiedcyberontology.org/uco/core/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ndc-sr: <https://w3id.org/network-data-catalog/server#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix ndc-pm: <https://w3id.org/network-data-catalog/platform#> .
+
+<http://example.org/NetworkDevice/srl> a ndc-sr:NetworkDevice;
+  ndc-sr:deviceId "srl";
+  ndc-pm:platform <http://example.org/Platform/7250_XR>;
+  ndc-pm:operatingSystem <http://example.org/OperatingSystem/SR_Linux/24.10>;
+  ndc-sr:runsYangServer <http://example.org/NetworkDevice/srl/NetconfServer>, <http://example.org/NetworkDevice/srl/GnmiServer> .
+
+<http://example.org/Platform/7250_XR> a ndc-pm:Platform;
+  ndc-pm:platformName "7250 XR";
+  ndc-pm:vendor <http://example.org/Vendor/NOKIA> .
+
+<http://example.org/OperatingSystem/SR_Linux/24.10> a ndc-pm:OperatingSystem;
+  ndc-pm:osName "SR Linux";
+  ndc-pm:osVersion "24.10";
+  ndc-pm:vendor <http://example.org/Vendor/NOKIA> .
+
+<http://example.org/Vendor/NOKIA> a ndc-pm:Vendor;
+  schema:name "NOKIA" .
+
+<http://example.org/NetworkDevice/srl/NetconfServer> a ndc-sr:NetconfServer;
+  ndc-sr:socketAddress <http://example.org/NetworkDevice/srl/NetconfServer/SocketAddress>;
+  ndc-sr:serverAccount <http://example.org/NetworkDevice/srl/NetconfServer/ServerAccount> .
+
+<http://example.org/NetworkDevice/srl/NetconfServer/SocketAddress> a observable:SocketAddress;
+  observable:addressValue "172.100.100.11:830" .
+
+<http://example.org/NetworkDevice/srl/NetconfServer/ServerAccount> a ndc-sr:ServerAccount;
+  ndc-sr:username "admin";
+  core:hasFacet <http://example.org/NetworkDevice/srl/NetconfServer/AccountAuthenticationFacet> .
+
+<http://example.org/NetworkDevice/srl/NetconfServer/AccountAuthenticationFacet> a
+    observable:AccountAuthenticationFacet;
+  observable:password "NokiaSrl1!";
+  observable:passwordType "plain-text" .
+
+<http://example.org/NetworkDevice/srl/GnmiServer> a ndc-sr:GnmiServer;
+  ndc-sr:socketAddress <http://example.org/NetworkDevice/srl/GnmiServer/SocketAddress>;
+  ndc-sr:serverAccount <http://example.org/NetworkDevice/srl/GnmiServer/ServerAccount> .
+
+<http://example.org/NetworkDevice/srl/GnmiServer/SocketAddress> a observable:SocketAddress;
+  observable:addressValue "172.100.100.11:57400" .
+
+<http://example.org/NetworkDevice/srl/GnmiServer/ServerAccount> a ndc-sr:ServerAccount;
+  ndc-sr:username "admin";
+  core:hasFacet <http://example.org/NetworkDevice/srl/GnmiServer/AccountAuthenticationFacet> .
+
+<http://example.org/NetworkDevice/srl/GnmiServer/AccountAuthenticationFacet> a observable:AccountAuthenticationFacet;
+  observable:password "NokiaSrl1!";
+  observable:passwordType "plain-text" .

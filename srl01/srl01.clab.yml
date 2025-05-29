@@ -1,0 +1,13 @@
+# topology documentation: http://containerlab.dev/lab-examples/single-srl/
+name: srl01
+
+mgmt:
+  network: custom-net
+  ipv4-subnet: 172.100.100.0/24
+
+topology:
+  nodes:
+    srl:
+      kind: nokia_srlinux
+      mgmt-ipv4: 172.100.100.11
+      image: ghcr.io/nokia/srlinux:24.10

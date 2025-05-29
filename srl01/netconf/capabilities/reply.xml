@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="10">
+    <data>
+        <network-instance xmlns="urn:nokia.com:srlinux:net-inst:network-instance">
+            <name>mgmt</name>
+            <type>ip-vrf</type>
+            <admin-state>enable</admin-state>
+            <description>Management network instance</description>
+            <interface>
+                <name>mgmt0.0</name>
+            </interface>
+            <protocols>
+                <linux xmlns="urn:nokia.com:srlinux:linux:linux">
+                    <import-routes>true</import-routes>
+                    <export-routes>true</export-routes>
+                    <export-neighbors>true</export-neighbors>
+                </linux>
+            </protocols>
+        </network-instance>
+    </data>
+</rpc-reply>
