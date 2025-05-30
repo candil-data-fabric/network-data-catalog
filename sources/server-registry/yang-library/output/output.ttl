@@ -1,9 +1,9 @@
 @prefix yl: <https://w3id.org/yang/library#> .
 @prefix ys: <https://w3id.org/yang/server#> .
 
-<https://network-data-catalog.org/NetconfServer/srl/YangLibrary/1k19sk2x1k19sk3yk4>
+<https://network-data-catalog.org/NetconfServer/srl/YangLibrary/1k3ha4jx1k3ha4myk4>
   a yl:YangLibrary;
-  yl:yangLibraryId "1k19sk2x1k19sk3yk4";
+  yl:yangLibraryId "1k3ha4jx1k3ha4myk4";
   yl:moduleSet <https://network-data-catalog.org/NetconfServer/srl/ModuleSet/nokia>;
   yl:schema <https://network-data-catalog.org/NetconfServer/srl/Schema/nokia> .
 

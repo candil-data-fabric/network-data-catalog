@@ -1,0 +1,58 @@
+- beans:
+  - name: mappingTemplate
+    type: "#class:com.cefriel.util.ChimeraResourceBean"
+    properties:
+      url: "file://./files/mappings.vm"
+      serializationFormat: "vtl"
+
+- from:
+    uri: "netconf:admin@localhost:830"
+    parameters:
+      xmlFilterFile: "files/filter.xml"
+      password: "NokiaSrl1!"
+      datastore: "operational"
+      insecure: true
+    steps:
+      - log:
+          message: "Retrieved data: ${body}"
+      - to:
+          uri: "seda:lifting"
+
+- from:
+    uri: "seda:lifting"
+    steps:
+      - to:
+          uri: "mapt://xml"
+          parameters:
+            template: "#bean:mappingTemplate"
+            format: "turtle"
+      - multicast:
+          steps:
+            - to:
+                uri: "direct:storeLiftedFile"
+            # - to:
+            #     uri: "direct:storeLiftedTriplestore"
+
+- from:
+    uri: "direct:storeLiftedFile"
+    steps:
+      - to:
+          uri: "file:output"
+          parameters:
+            fileName: "output.ttl"
+            noop: true
+      - log:
+          message: "Lifting saved to output/output.ttl"
+
+# - from:
+#     uri: "direct:storeLiftedTriplestore"
+#     steps:
+#       - to:
+#           uri: "graph://get"
+#           parameters:
+#             serverUrl: "http://127.0.0.1:7200"
+#             repositoryId: "default"
+#             rdfFormat: "turtle"
+#             defaultGraph: true
+#       - log:
+#           message: "File stored in remote triplestore"
