@@ -1,0 +1,10 @@
+
+- from:
+    uri: "direct:start"
+    steps:
+      - to:
+          uri: "grpc://localhost:57400/com.github.gnmi.proto.gNMI"
+          parameters:
+            method: "capabilities"
+      - log:
+          message: "Retrieved data: ${body}"
