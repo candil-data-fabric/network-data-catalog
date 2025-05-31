@@ -1,0 +1,67 @@
+@prefix ndc-lb: <https://w3id.org/network-data-catalog/caprary#> .
+@prefix ndc-pm: <https://w3id.org/network-data-catalog/platform#> .
+@prefix ndc-sr: <https://w3id.org/network-data-catalog/server#> .
+@prefix mod: <https://w3id.org/mod#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix core: <https://ontology.unifiedcyberontology.org/uco/core/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix schema: <http://schema.org/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
+@base <http://example.org/> .
+
+
+#set( $capQuery = '
+    declare namespace ncm = "urn:ietf:params:xml:ns:yang:ietf-netconf-monitoring" ;
+    for $capability in /ncm:netconf-state/ncm:capabilities/ncm:capability
+    return map {
+        "id": $capability/text()
+    }')
+#set($capData = $reader.getDataframe($capQuery))
+
+#foreach($cap in $capData)
+
+#set($parts = $cap.id.split(':'))
+#set($capName = $parts[$parts.size() - 2])
+#set($capVersion = $parts[$parts.size() - 1])
+
+#if($cap.id.contains("urn:ietf:params:netconf:base"))
+<NetconfDevice/srl/NetconfServer> ndc-sr:protocolVersion "$capVersion" .
+#end
+
+#if($cap.id.contains("urn:ietf:params:netconf:capability"))
+#if($capName == "candidate")
+<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:CandidateCapability .
+#end
+#if($capName == "confirmed-commit")
+<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:ConfirmedCommitCapability .
+#end
+#if($capName == "rollback-on-error")
+<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:RollbackOnErrorCapability .
+#end
+#if($capName == "startup")
+<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:StartupCapability .
+#end
+#if($capName == "url")
+<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:UrlCapability .
+#end
+#if($capName == "validate")
+<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:ValidateCapability .
+#end
+#if($capName == "yang-library")
+#if($capVersion.contains("1.1"))
+<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:YangLibrary11Capability .
+#end
+#if($capVersion.contains("1.0"))
+<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:YangLibrary10Capability .
+#end
+#end
+
+#end
+
+#end
+

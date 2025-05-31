@@ -30,8 +30,8 @@
           steps:
             - to:
                 uri: "direct:storeLiftedFile"
-            # - to:
-            #     uri: "direct:storeLiftedTriplestore"
+            - to:
+                uri: "direct:storeLiftedTriplestore"
 
 - from:
     uri: "direct:storeLiftedFile"
@@ -44,15 +44,16 @@
       - log:
           message: "Lifting saved to output/output.ttl"
 
-# - from:
-#     uri: "direct:storeLiftedTriplestore"
-#     steps:
-#       - to:
-#           uri: "graph://get"
-#           parameters:
-#             serverUrl: "http://127.0.0.1:7200"
-#             repositoryId: "default"
-#             rdfFormat: "turtle"
-#             defaultGraph: true
-#       - log:
-#           message: "File stored in remote triplestore"
+- from:
+    uri: "direct:storeLiftedTriplestore"
+    steps:
+      - to:
+          uri: "graph://get"
+          parameters:
+            serverUrl: "http://127.0.0.1:7200"
+            repositoryId: "default"
+            rdfFormat: "turtle"
+            defaultGraph: true
+      - log:
+          message: "File stored in remote triplestore"
+

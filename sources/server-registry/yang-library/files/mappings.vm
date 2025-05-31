@@ -1,30 +1,25 @@
-@prefix yl: <https://w3id.org/yang/library#> .
-@prefix ys: <https://w3id.org/yang/server#> .
-@base <https://network-data-catalog.org/> .
-
-#set( $libQuery = '
-    declare namespace yanglib = "urn:ietf:params:xml:ns:yang:ietf-yang-library" ;
-    for $lib in /yanglib:yang-library
-    return map {
-        "id": $lib/yanglib:content-id/text() ,
-        "schemaId": $lib/yanglib:schema/yanglib:name/text() ,
-        "moduleSetId": $lib/yanglib:module-set/yanglib:name/text()
-    }')
-#set($libData = $reader.getDataframe($libQuery))
-
-#foreach($lib in $libData)
-<NetconfServer/srl/YangLibrary/$lib.id> a yl:YangLibrary ;
-    yl:yangLibraryId "$lib.id" ;
-    yl:moduleSet <NetconfServer/srl/ModuleSet/$lib.moduleSetId> ;
-    yl:schema <NetconfServer/srl/Schema/$lib.schemaId> .
-#end
+@prefix ndc-lb: <https://w3id.org/network-data-catalog/library#> .
+@prefix ndc-pm: <https://w3id.org/network-data-catalog/platform#> .
+@prefix ndc-sr: <https://w3id.org/network-data-catalog/server#> .
+@prefix mod: <https://w3id.org/mod#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix core: <https://ontology.unifiedcyberontology.org/uco/core/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix schema: <http://schema.org/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
+@base <http://example.org/> .
 
 #set( $dsMap = {
-  "ds:candidate": "ys:CandidateDatastore",
-  "ds:intended": "ys:IntendedDatastore",
-  "ds:operational": "ys:OperationalDatastore",
-  "ds:running": "ys:RunningDatastore",
-  "ds:startup": "ys:StartupDatastore"
+  "ds:candidate": "ndc-sr:CandidateDatastore",
+  "ds:intended": "ndc-sr:IntendedDatastore",
+  "ds:operational": "ndc-sr:OperationalDatastore",
+  "ds:running": "ndc-sr:RunningDatastore",
+  "ds:startup": "ndc-sr:StartupDatastore"
 } )
 
 #set( $dsQuery = '
@@ -38,10 +33,11 @@
 
 #foreach($ds in $dsData)
 #set( $dsType = $dsMap.get($ds.id) )
-<NetconfServer/srl/Datastore/$ds.id> a $dsType ;
-    ys:server <NetconfServer/srl> ;
-    yl:implementsSchema <NetconfServer/srl/Schema/$ds.schemaId> .
-
+<NetworkDevice/srl/Datastore/$ds.id> a $dsType ;
+    ndc-sr:exposedByYangServer <NetworkDevice/srl/NetconfServer> ,
+                               <NetworkDevice/srl/GnmiServer> ;
+    ndc-lb:supportsDatastoreSchema <NetworkDevice/srl/Schema/$ds.schemaId> ;
+.
 #end
 
 #set( $schemaQuery = '
@@ -54,9 +50,9 @@
 #set($schemaData = $reader.getDataframe($schemaQuery))
 
 #foreach($schema in $schemaData)
-<NetconfServer/srl/Schema/$schema.id> a yl:Schema ;
-    yl:schemaId "$schema.id" ;
-    yl:containsModuleSet <NetconfServer/srl/ModuleSet/$schema.moduleSetId> .
+<NetworkDevice/srl/Schema/$schema.id> a ndc-lb:Schema ;
+    ndc-lb:schemaId "$schema.id" ;
+    ndc-lb:usesModuleSet <NetworkDevice/srl/ModuleSet/$schema.moduleSetId> .
 
 #end
 
@@ -72,14 +68,17 @@
     }')
 #set($importedModuleData = $reader.getDataframe($importedModuleQuery))
 #foreach($module in $importedModuleData)
-<NetconfServer/srl/ModuleSet/$module.moduleSetId/ModuleImport/$module.name/$module.revision> a yl:ModuleImport ;
-    yl:location "$module.location"^^xsd:anyURI ;
-    yl:importedModule <Module/$module.name/$module.revision> .
+<NetworkDevice/srl/ModuleSet/$module.moduleSetId> a ndc-lb:ModuleSet ;
+    ndc-lb:moduleImport <NetworkDevice/srl/ModuleSet/$module.moduleSetId/ModuleImport/$module.name/$module.revision> .
 
-<Module/$module.name/$module.revision> a yl:Module ;
-    yl:moduleName "$module.name" ;
-    yl:revisionDate "$module.revision"^^xsd:date ;
-    yl:namespace "$module.namespace"^^xsd:anyURI .
+<NetworkDevice/srl/ModuleSet/$module.moduleSetId/ModuleImport/$module.name/$module.revision> a ndc-lb:ModuleImport ;
+    ndc-lb:location "$module.location"^^xsd:anyURI ;
+    ndc-lb:importedModule <Module/$module.name/$module.revision> .
+
+<Module/$module.name/$module.revision> a ndc-lb:Module ;
+    ndc-lb:moduleName "$module.name" ;
+    ndc-lb:revisionDate "$module.revision"^^xsd:date ;
+    ndc-lb:namespace "$module.namespace"^^xsd:anyURI .
 #end
 
 #set( $moduleQuery = '
@@ -94,14 +93,17 @@
     }')
 #set($moduleData = $reader.getDataframe($moduleQuery))
 #foreach($module in $moduleData)
-<NetconfServer/srl/ModuleSet/$module.moduleSetId/ModuleImplementation/$module.name/$module.revision> a yl:ModuleImplementation ;
-    yl:implementedModule <Module/$module.name/$module.revision> ;
-    yl:location "$module.location"^^xsd:anyURI .
+<NetworkDevice/srl/ModuleSet/$module.moduleSetId> a ndc-lb:ModuleSet ;
+    ndc-lb:moduleImplementation <NetworkDevice/srl/ModuleSet/$module.moduleSetId/ModuleImplementation/$module.name/$module.revision> .
 
-<Module/$module.name/$module.revision> a yl:Module ;
-    yl:moduleName "$module.name" ;
-    yl:revisionDate "$module.revision"^^xsd:date ;
-    yl:namespace "$module.namespace"^^xsd:anyURI .
+<NetworkDevice/srl/ModuleSet/$module.moduleSetId/ModuleImplementation/$module.name/$module.revision> a ndc-lb:ModuleImplementation ;
+    ndc-lb:implementedModule <Module/$module.name/$module.revision> ;
+    ndc-lb:location "$module.location"^^xsd:anyURI .
+
+<Module/$module.name/$module.revision> a ndc-lb:Module ;
+    ndc-lb:moduleName "$module.name" ;
+    ndc-lb:revisionDate "$module.revision"^^xsd:date ;
+    ndc-lb:namespace "$module.namespace"^^xsd:anyURI .
 #end
 
 #set( $implementedSubmoduleQuery = '
@@ -117,15 +119,15 @@
     }')
 #set($implementedSubmoduleData = $reader.getDataframe($implementedSubmoduleQuery))
 #foreach($implementedSubmodule in $implementedSubmoduleData)
-<NetconfServer/srl/ModuleSet/$implementedSubmodule.moduleSetId/ModuleImplementation/$implementedSubmodule.name/$implementedSubmodule.revision> a yl:ModuleImplementation ;
-    yl:implementedModule <Submodule/$implementedSubmodule.name/$implementedSubmodule.revision> ;
-    yl:location "$implementedSubmodule.location"^^xsd:anyURI .
+<NetworkDevice/srl/ModuleSet/$implementedSubmodule.moduleSetId/ModuleImplementation/$implementedSubmodule.name/$implementedSubmodule.revision> a ndc-lb:ModuleImplementation ;
+    ndc-lb:implementedModule <Submodule/$implementedSubmodule.name/$implementedSubmodule.revision> ;
+    ndc-lb:location "$implementedSubmodule.location"^^xsd:anyURI .
 
-<Submodule/$implementedSubmodule.name/$implementedSubmodule.revision> a yl:Submodule ;
-    yl:moduleName "$implementedSubmodule.name" ;
-    yl:revisionDate "$implementedSubmodule.revision"^^xsd:date .
+<Submodule/$implementedSubmodule.name/$implementedSubmodule.revision> a ndc-lb:Submodule ;
+    ndc-lb:moduleName "$implementedSubmodule.name" ;
+    ndc-lb:revisionDate "$implementedSubmodule.revision"^^xsd:date .
 
-<Module/$implementedSubmodule.moduleName/$implementedSubmodule.moduleRevision> yl:includesSubmodule <Submodule/$implementedSubmodule.name/$implementedSubmodule.revision> .
+<Module/$implementedSubmodule.moduleName/$implementedSubmodule.moduleRevision> ndc-lb:includesSubmodule <Submodule/$implementedSubmodule.name/$implementedSubmodule.revision> .
 #end
 
 #set( $importedSubmoduleQuery = '
@@ -141,15 +143,15 @@
     }')
 #set($importedSubmoduleData = $reader.getDataframe($importedSubmoduleQuery))
 #foreach($importedSubmodule in $importedSubmoduleData)
-<NetconfServer/srl/ModuleSet/$importedSubmodule.moduleSetId/ModuleImport/$importedSubmodule.name/$importedSubmodule.revision> a yl:ModuleImport ;
-    yl:importedModule <Submodule/$importedSubmodule.name/$importedSubmodule.revision> ;
-    yl:location "$importedSubmodule.location"^^xsd:anyURI .
+<NetworkDevice/srl/ModuleSet/$importedSubmodule.moduleSetId/ModuleImport/$importedSubmodule.name/$importedSubmodule.revision> a ndc-lb:ModuleImport ;
+    ndc-lb:importedModule <Submodule/$importedSubmodule.name/$importedSubmodule.revision> ;
+    ndc-lb:location "$importedSubmodule.location"^^xsd:anyURI .
 
-<Submodule/$importedSubmodule.name/$importedSubmodule.revision> a yl:Submodule ;
-    yl:moduleName "$importedSubmodule.name" ;
-    yl:revisionDate "$importedSubmodule.revision"^^xsd:date .
+<Submodule/$importedSubmodule.name/$importedSubmodule.revision> a ndc-lb:Submodule ;
+    ndc-lb:moduleName "$importedSubmodule.name" ;
+    ndc-lb:revisionDate "$importedSubmodule.revision"^^xsd:date .
 
-<Module/$importedSubmodule.moduleName/$importedSubmodule.moduleRevision> yl:includesSubmodule <Submodule/$importedSubmodule.name/$importedSubmodule.revision> .
+<Module/$importedSubmodule.moduleName/$importedSubmodule.moduleRevision> ndc-lb:includesSubmodule <Submodule/$importedSubmodule.name/$importedSubmodule.revision> .
 #end
 
 #set( $deviationQuery = '
@@ -164,7 +166,7 @@
 #foreach($deviation in $deviationData)
 #foreach($module in $moduleData)
 #if($module.name == $deviation.deviationName)
-<Module/$deviation.deviatedModuleName/$deviation.deviatedModuleDate> yl:deviatedByModule <Module/$deviation.deviationName/$module.revision> .
+<Module/$deviation.deviatedModuleName/$deviation.deviatedModuleDate> ndc-lb:deviatedByModule <Module/$deviation.deviationName/$module.revision> .
 #break
 #end
 #end
@@ -181,9 +183,9 @@
     }')
 #set($featureData = $reader.getDataframe($featureQuery))
 #foreach($feature in $featureData)
-<NetconfServer/srl/ModuleSet/$feature.moduleSetName/ModuleImplementation/$feature.moduleName/$feature.moduleDate>
-    yl:usesFeature <Feature/$feature.featureName> .
+<NetworkDevice/srl/ModuleSet/$feature.moduleSetName/ModuleImplementation/$feature.moduleName/$feature.moduleDate>
+    ndc-lb:usesFeature <Feature/$feature.featureName> .
 
-<Feature/$feature.featureName> a yl:Feature ;
-    yl:featureName "$feature.featureName" .
+<Feature/$feature.featureName> a ndc-lb:Feature ;
+    ndc-lb:featureName "$feature.featureName" .
 #end

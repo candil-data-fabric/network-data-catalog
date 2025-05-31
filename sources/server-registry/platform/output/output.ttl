@@ -20,14 +20,14 @@
 
 <http://example.org/Platform/7250_XR> a ndc-pm:Platform;
   ndc-pm:platformName "7250 XR";
-  ndc-pm:vendor <http://example.org/Vendor/NOKIA> .
+  ndc-pm:vendor <http://example.org/Organization/NOKIA> .
 
 <http://example.org/OperatingSystem/SR_Linux/24.10> a ndc-pm:OperatingSystem;
   ndc-pm:osName "SR Linux";
   ndc-pm:osVersion "24.10";
-  ndc-pm:vendor <http://example.org/Vendor/NOKIA> .
+  ndc-pm:vendor <http://example.org/Organization/NOKIA> .
 
-<http://example.org/Vendor/NOKIA> a ndc-pm:Vendor;
+<http://example.org/Organization/NOKIA> a ndc-pm:Vendor;
   schema:name "NOKIA" .
 
 <http://example.org/NetworkDevice/srl/NetconfServer> a ndc-sr:NetconfServer;

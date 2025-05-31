@@ -45,16 +45,16 @@
 
 <Platform/$normalizedPlatform> rdf:type ndc-pm:Platform ;
     ndc-pm:platformName "$x.platform" ;
-    ndc-pm:vendor <Vendor/$normalizedVendor> ;
+    ndc-pm:vendor <Organization/$normalizedVendor> ;
 .
 
 <OperatingSystem/$normalizedOsName/${x.os_version}> rdf:type ndc-pm:OperatingSystem ;
     ndc-pm:osName "${x.os_name}" ;
     ndc-pm:osVersion "${x.os_version}" ;
-    ndc-pm:vendor <Vendor/$normalizedVendor> ;
+    ndc-pm:vendor <Organization/$normalizedVendor> ;
 .
 
-<Vendor/$normalizedVendor> rdf:type ndc-pm:Vendor ;
+<Organization/$normalizedVendor> rdf:type ndc-pm:Vendor ;
     schema:name "$normalizedVendor" ;
 .
 

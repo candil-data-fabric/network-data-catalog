@@ -1,0 +1,62 @@
+@prefix ndc-lb: <https://w3id.org/network-data-catalog/library#> .
+@prefix schema: <http://schema.org/> .
+@base <https://example.org/> .
+
+#set ($modules = $reader.getDataframe('{
+    "iterator": "$[\"yang-catalog:modules\"].module.*",
+    "paths": {
+        "name": "name",
+        "revision": "revision",
+        "prefix": "prefix",
+        "description": "description",
+        "contact": "contact",
+        "reference": "reference",
+        "location": "schema",
+        "organization": "organization",
+        "dependencies": "dependencies"
+    }
+}'))
+
+#foreach($module in $modules)
+
+#set ($dependenciesReader = $functions.getJSONReaderFromString($module.dependencies))
+#set ($dependencies = $dependenciesReader.getDataframe('{
+    "iterator": "$.*",
+    "paths": {
+        "name": "name",
+        "revision": "revision"
+    }
+}'))
+
+#set($normalizedOrganization = $module.organization.toUpperCase())
+
+<Module/$module.name/$module.revision> a ndc-lb:Module ;
+    #if($module.prefix)
+    ndc-lb:prefix "$module.prefix" ;
+    #end
+    #if($module.description)
+    ndc-lb:moduleDescription """$module.description""" ;
+    #end
+    #if($module.contact)
+    ndc-lb:moduleContact """$module.contact""" ;
+    #end
+    #if($module.reference)
+    ndc-lb:referenceDocument "$module.reference" ;
+    #end
+    #if($module.location)
+    ndc-lb:repositoryLocation "$module.location"^^xsd:anyURI ;
+    #end
+    ndc-lb:developedBy <Organization/$normalizedOrganization> ;
+.
+
+<Organization/$normalizedOrganization> rdf:type schema:Organization ;
+    schema:name "$module.organization" ;
+.
+
+#foreach($dependency in $dependencies)
+#if($dependency.revision)
+<Module/$module.name/$module.revision> ndc-lb:moduleDependency  <Module/$dependency.name/$dependency.revision> .
+#end
+#end
+
+#end
