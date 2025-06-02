@@ -38,6 +38,9 @@
                                <NetworkDevice/srl/GnmiServer> ;
     ndc-lb:supportsDatastoreSchema <NetworkDevice/srl/Schema/$ds.schemaId> ;
 .
+
+<NetworkDevice/srl> ndc-sr:implementsYangDatastore <NetworkDevice/srl/Datastore/$ds.id> .
+
 #end
 
 #set( $schemaQuery = '

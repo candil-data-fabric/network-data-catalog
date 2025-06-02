@@ -2,7 +2,7 @@
   - name: mappingTemplate
     type: "#class:com.cefriel.util.ChimeraResourceBean"
     properties:
-      url: "file://./mappings.vm"
+      url: "file://./files/mappings.vm"
       serializationFormat: "vtl"
 
 - from:

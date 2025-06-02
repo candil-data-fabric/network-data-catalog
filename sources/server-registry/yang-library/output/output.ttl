@@ -17,6 +17,10 @@
   ndc-sr:exposedByYangServer <http://example.org/NetworkDevice/srl/NetconfServer>, <http://example.org/NetworkDevice/srl/GnmiServer>;
   ndc-lb:supportsDatastoreSchema <http://example.org/NetworkDevice/srl/Schema/nokia> .
 
+<http://example.org/NetworkDevice/srl> ndc-sr:implementsYangDatastore <NetworkDevice/srl/Datastore/ds:intended>,
+    <NetworkDevice/srl/Datastore/ds:startup>, <NetworkDevice/srl/Datastore/ds:running>,
+    <NetworkDevice/srl/Datastore/ds:operational>, <NetworkDevice/srl/Datastore/ds:candidate> .
+
 <NetworkDevice/srl/Datastore/ds:startup> a ndc-sr:StartupDatastore;
   ndc-sr:exposedByYangServer <http://example.org/NetworkDevice/srl/NetconfServer>, <http://example.org/NetworkDevice/srl/GnmiServer>;
   ndc-lb:supportsDatastoreSchema <http://example.org/NetworkDevice/srl/Schema/nokia> .
