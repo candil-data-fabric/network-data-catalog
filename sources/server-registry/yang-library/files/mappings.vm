@@ -33,13 +33,14 @@
 
 #foreach($ds in $dsData)
 #set( $dsType = $dsMap.get($ds.id) )
-<NetworkDevice/srl/Datastore/$ds.id> a $dsType ;
+#set( $dsId = $ds.id.replace("ds:", ""))
+<NetworkDevice/srl/Datastore/$dsId> a $dsType ;
     ndc-sr:exposedByYangServer <NetworkDevice/srl/NetconfServer> ,
                                <NetworkDevice/srl/GnmiServer> ;
     ndc-lb:supportsDatastoreSchema <NetworkDevice/srl/Schema/$ds.schemaId> ;
 .
 
-<NetworkDevice/srl> ndc-sr:implementsYangDatastore <NetworkDevice/srl/Datastore/$ds.id> .
+<NetworkDevice/srl> ndc-sr:implementsYangDatastore <NetworkDevice/srl/Datastore/$dsId> .
 
 #end
 

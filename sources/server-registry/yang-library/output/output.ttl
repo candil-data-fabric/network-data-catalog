@@ -13,27 +13,27 @@
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix ndc-pm: <https://w3id.org/network-data-catalog/platform#> .
 
-<NetworkDevice/srl/Datastore/ds:intended> a ndc-sr:IntendedDatastore;
+<http://example.org/NetworkDevice/srl/Datastore/intended> a ndc-sr:IntendedDatastore;
   ndc-sr:exposedByYangServer <http://example.org/NetworkDevice/srl/NetconfServer>, <http://example.org/NetworkDevice/srl/GnmiServer>;
   ndc-lb:supportsDatastoreSchema <http://example.org/NetworkDevice/srl/Schema/nokia> .
 
-<http://example.org/NetworkDevice/srl> ndc-sr:implementsYangDatastore <NetworkDevice/srl/Datastore/ds:intended>,
-    <NetworkDevice/srl/Datastore/ds:startup>, <NetworkDevice/srl/Datastore/ds:running>,
-    <NetworkDevice/srl/Datastore/ds:operational>, <NetworkDevice/srl/Datastore/ds:candidate> .
+<http://example.org/NetworkDevice/srl> ndc-sr:implementsYangDatastore <http://example.org/NetworkDevice/srl/Datastore/intended>,
+    <http://example.org/NetworkDevice/srl/Datastore/startup>, <http://example.org/NetworkDevice/srl/Datastore/running>,
+    <http://example.org/NetworkDevice/srl/Datastore/operational>, <http://example.org/NetworkDevice/srl/Datastore/candidate> .
 
-<NetworkDevice/srl/Datastore/ds:startup> a ndc-sr:StartupDatastore;
+<http://example.org/NetworkDevice/srl/Datastore/startup> a ndc-sr:StartupDatastore;
   ndc-sr:exposedByYangServer <http://example.org/NetworkDevice/srl/NetconfServer>, <http://example.org/NetworkDevice/srl/GnmiServer>;
   ndc-lb:supportsDatastoreSchema <http://example.org/NetworkDevice/srl/Schema/nokia> .
 
-<NetworkDevice/srl/Datastore/ds:running> a ndc-sr:RunningDatastore;
+<http://example.org/NetworkDevice/srl/Datastore/running> a ndc-sr:RunningDatastore;
   ndc-sr:exposedByYangServer <http://example.org/NetworkDevice/srl/NetconfServer>, <http://example.org/NetworkDevice/srl/GnmiServer>;
   ndc-lb:supportsDatastoreSchema <http://example.org/NetworkDevice/srl/Schema/nokia> .
 
-<NetworkDevice/srl/Datastore/ds:operational> a ndc-sr:OperationalDatastore;
+<http://example.org/NetworkDevice/srl/Datastore/operational> a ndc-sr:OperationalDatastore;
   ndc-sr:exposedByYangServer <http://example.org/NetworkDevice/srl/NetconfServer>, <http://example.org/NetworkDevice/srl/GnmiServer>;
   ndc-lb:supportsDatastoreSchema <http://example.org/NetworkDevice/srl/Schema/nokia> .
 
-<NetworkDevice/srl/Datastore/ds:candidate> a ndc-sr:CandidateDatastore;
+<http://example.org/NetworkDevice/srl/Datastore/candidate> a ndc-sr:CandidateDatastore;
   ndc-sr:exposedByYangServer <http://example.org/NetworkDevice/srl/NetconfServer>, <http://example.org/NetworkDevice/srl/GnmiServer>;
   ndc-lb:supportsDatastoreSchema <http://example.org/NetworkDevice/srl/Schema/nokia> .
 
