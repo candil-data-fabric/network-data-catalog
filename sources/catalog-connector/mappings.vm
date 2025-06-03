@@ -1,6 +1,6 @@
 @prefix ndc-lb: <https://w3id.org/network-data-catalog/library#> .
 @prefix schema: <http://schema.org/> .
-@base <https://example.org/> .
+@base <http://example.org/> .
 
 #set ($modules = $reader.getDataframe('{
     "iterator": "$[\"yang-catalog:modules\"].module.*",
