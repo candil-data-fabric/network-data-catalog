@@ -13,7 +13,7 @@
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix ndc-pm: <https://w3id.org/network-data-catalog/platform#> .
 
-<http://example.org/NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:ConfirmedCommitCapability,
+<http://example.org/NetworkDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:ConfirmedCommitCapability,
     ndc-sr:RollbackOnErrorCapability, ndc-sr:CandidateCapability, ndc-sr:StartupCapability,
     ndc-sr:YangLibrary11Capability, ndc-sr:UrlCapability, ndc-sr:ValidateCapability;
   ndc-sr:protocolVersion "1.0", "1.1" .

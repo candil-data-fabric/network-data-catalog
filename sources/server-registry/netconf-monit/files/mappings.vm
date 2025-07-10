@@ -30,34 +30,34 @@
 #set($capVersion = $parts[$parts.size() - 1])
 
 #if($cap.id.contains("urn:ietf:params:netconf:base"))
-<NetconfDevice/srl/NetconfServer> ndc-sr:protocolVersion "$capVersion" .
+<NetworkDevice/srl/NetconfServer> ndc-sr:protocolVersion "$capVersion" .
 #end
 
 #if($cap.id.contains("urn:ietf:params:netconf:capability"))
 #if($capName == "candidate")
-<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:CandidateCapability .
+<NetworkDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:CandidateCapability .
 #end
 #if($capName == "confirmed-commit")
-<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:ConfirmedCommitCapability .
+<NetworkDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:ConfirmedCommitCapability .
 #end
 #if($capName == "rollback-on-error")
-<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:RollbackOnErrorCapability .
+<NetworkDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:RollbackOnErrorCapability .
 #end
 #if($capName == "startup")
-<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:StartupCapability .
+<NetworkDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:StartupCapability .
 #end
 #if($capName == "url")
-<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:UrlCapability .
+<NetworkDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:UrlCapability .
 #end
 #if($capName == "validate")
-<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:ValidateCapability .
+<NetworkDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:ValidateCapability .
 #end
 #if($capName == "yang-library")
 #if($capVersion.contains("1.1"))
-<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:YangLibrary11Capability .
+<NetworkDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:YangLibrary11Capability .
 #end
 #if($capVersion.contains("1.0"))
-<NetconfDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:YangLibrary10Capability .
+<NetworkDevice/srl/NetconfServer> ndc-sr:netconfCapability ndc-sr:YangLibrary10Capability .
 #end
 #end
 

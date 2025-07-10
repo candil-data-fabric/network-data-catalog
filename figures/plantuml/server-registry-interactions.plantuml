@@ -22,7 +22,7 @@ skinparam BoxPadding 25
 skinparam backgroundColor #FFFFFF
 
 ' If you want to use a custom actor sprite, you must define it as a sprite (see previous answer).
-actor "NetOps\nEngineer" as NetOps
+participant "NMS" as NMS
 
 box "Network Data Catalog" #FCFCFC
   participant "Server\nRegistry" as ServerRegistry
@@ -34,8 +34,8 @@ box "Network Device" #LightBlue
   participant "gNMI\nServer" as gNMI
 end box
 
-NetOps -> ServerRegistry : (1) POST Register\nnetwork device
-ServerRegistry --> NetOps
+NMS -> ServerRegistry : (1) POST Register\nnetwork device
+ServerRegistry --> NMS
 
 ServerRegistry -> KGDB : (2) SPARQL UPDATE KG\nPlatform Module
 KGDB --> ServerRegistry
