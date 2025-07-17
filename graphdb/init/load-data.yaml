@@ -1,0 +1,97 @@
+- from:
+    uri: "file:../../sources/server-registry/platform/output"
+    parameters:
+      fileName: "output.ttl"
+      noop: true
+    steps:
+      - log:
+          message: "Loading platform sample dataset"
+      - to:
+          uri: "direct:storeTriplestore"
+
+- from:
+    uri: "file:../../sources/server-registry/yang-library/output"
+    parameters:
+      fileName: "output.ttl"
+      noop: true
+    steps:
+      - log:
+          message: "Loading yang-library sample dataset"
+      - to:
+          uri: "direct:storeTriplestore"
+
+- from:
+    uri: "file:../../sources/server-registry/netconf-monit/output"
+    parameters:
+      fileName: "output.ttl"
+      noop: true
+    steps:
+      - log:
+          message: "Loading netconf-monit sample dataset"
+      - to:
+          uri: "direct:storeTriplestore"
+
+- from:
+    uri: "file:../../sources/catalog-connector/output"
+    parameters:
+      fileName: "output-ietf.ttl"
+      noop: true
+    steps:
+      - log:
+          message: "Loading yang-catalog-ietf sample dataset"
+      - to:
+          uri: "direct:storeTriplestore"
+
+- from:
+    uri: "file:../../sources/catalog-connector/output"
+    parameters:
+      fileName: "output-oc.ttl"
+      noop: true
+    steps:
+      - log:
+          message: "Loading yang-catalog-openconfig sample dataset"
+      - to:
+          uri: "direct:storeTriplestore"
+
+- from:
+    uri: "timer:once?repeatCount=1&delay=1000"
+    steps:
+      - log:
+          message: "Loading NDC Server Module"
+      - to:
+          uri: "https://raw.githubusercontent.com/candil-data-fabric/network-data-catalog-ontology/refs/heads/develop/ontology/server.ttl"
+      - to:
+          uri: "direct:storeTriplestore"
+
+- from:
+    uri: "timer:once?repeatCount=1&delay=1000"
+    steps:
+      - log:
+          message: "Loading NDC Library Module"
+      - to:
+          uri: "https://raw.githubusercontent.com/candil-data-fabric/network-data-catalog-ontology/refs/heads/develop/ontology/library.ttl"
+      - to:
+          uri: "direct:storeTriplestore"
+
+- from:
+    uri: "timer:once?repeatCount=1&delay=1000"
+    steps:
+      - log:
+          message: "Loading NDC Platform Module"
+      - to:
+          uri: "https://raw.githubusercontent.com/candil-data-fabric/network-data-catalog-ontology/refs/heads/develop/ontology/platform.ttl"
+      - to:
+          uri: "direct:storeTriplestore"
+
+- from:
+    uri: "direct:storeTriplestore"
+    steps:
+      - to:
+          uri: "graph://get"
+          parameters:
+            serverUrl: "http://127.0.0.1:7200"
+            repositoryId: "default"
+            rdfFormat: "turtle"
+            defaultGraph: true
+      - log:
+          message: "File stored in remote triplestore"
