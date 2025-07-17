@@ -26,8 +26,8 @@ curl -X POST \
   -F "config=@graphdb/init/config.ttl"
 ```
 
-Now, you can execute each Camel route using JBang:
+## Scenario
 
-```bash
-jbang camel@apache/camel run route.yaml --camel-version=4.10.0 --dep=mvn:com.cefriel:camel-chimera-mapping-template:4.5.0
-```
+The prototype has been tested against a containerized network scenario based on the [Containerlab tool](https://containerlab.dev) and the [Nokia SR Linux](https://containerlab.dev/manual/kinds/srl/) 24.10 router.
+
+More details on this scenario can be found in folder [srl01](./srl01/).
